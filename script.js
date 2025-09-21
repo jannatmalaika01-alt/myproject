@@ -302,7 +302,7 @@ if (window.location.pathname.includes('checkout.html')) {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
         if (cart.length === 0) {
             alert("Your cart is empty! Redirecting to home page.");
-            window.location.href = "momentum.html";
+            window.location.href = "index.html";
         }
     });
 }
