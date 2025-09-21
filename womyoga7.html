@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Women leggings - Momentum</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="m.jpeg" type="image">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+      <img src="mlogo.jpg" alt="Initial" class="initial">
+      <img src="homelogo.jpeg" alt="Logo" class="logo">
+      <div class="right-items">
+          <div class="searchbar">
+              <button class="search-btn">
+                  <img src="searchicon.png" alt="Search">
+              </button>
+              <input type="text" placeholder="Search">
+          </div>
+          <button class="bagitems">
+               <img src="bagitm.jpg" alt="Bag items">
+          </button>
+      </div>
+
+      <!-- Cart Tab -->
+      <div class="cart-tab">
+        <h1>Shopping Cart</h1>
+        <div class="listcart"></div>
+        <div class="btn">
+          <button class="close">CLOSE</button>
+          <a href="checkout.html"><button class="check-out">CHECK-OUT</button></a>
+        </div>
+      </div>
+  </nav>
+
+  <!-- Home Bar / Dropdowns -->
+  <div class="home-bar">
+    <div class="dropdown">
+      <a href="momentum.html"><button class="dropbtn">HOME</button></a>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">NEW</button>
+      <div class="dropdown-content">
+        <ul>
+          <li><button class="dropdown-item">Men's cord sets</button></li>
+          <li><button class="dropdown-item">Women's Athletics</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">MEN</button>
+      <div class="dropdown-content">
+        <ul>
+          <a href="menscordsets.html"><li><button class="dropdown-item">Cord Sets</button></li></a>
+          <a href="mensathletic.html"><li><button class="dropdown-item">Athletics</button></li></a>
+        </ul>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">WOMEN</button>
+      <div class="dropdown-content">
+        <ul>
+          <a href="womenlegging.html"><li><button class="dropdown-item">Leggings</button></li></a>
+          <a href="womenathletic.html"><li><button class="dropdown-item">Athletics</button></li></a>
+        </ul>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropbtn">TAILORED</button>
+      <div class="dropdown-content">
+        <ul>
+           <a href="womdresses.html"><li><button class="dropdown-item">Womens dresses</button></li></a> 
+           <a href="mendresses.html"><li><button class="dropdown-item">Mens suits</button></li></a>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Detail Section -->
+  <div class="product-detail">
+    <div class="product-image">
+      <img src="womleg7.png" alt="legging 7">
+    </div>
+    <div class="product-info">
+      <h1>Women leggings set</h1>
+      <p>High-performance yoga set. Perfect for daily workouts and athletic activities.</p>
+      <p><strong>Price:</strong> $120</p>
+
+      <!-- Size selection -->
+      <label for="size">Size:</label>
+      <select id="size">
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+        <option value="XXL">XXL</option>
+      </select>
+
+      <!-- Quantity -->
+      <label for="qty">Quantity:</label>
+      <input type="number" id="qty" value="1" min="1">
+
+      <!-- Add to Bag -->
+      <button class="add-to-bag">Add to Bag</button>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script src="script.js"></script>
+</body>
+</html>
