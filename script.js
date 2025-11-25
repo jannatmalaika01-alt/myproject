@@ -257,30 +257,66 @@ function renderCheckoutTable() {
     if (finalAmountEl) finalAmountEl.textContent = (cartTotal + codFee).toFixed(2);
 }
 
-// Handle checkout form submission
+// ================= CHECKOUT FORM SUBMISSION ==================
 const checkoutForm = document.getElementById('checkoutForm');
 if (checkoutForm) {
-    checkoutForm.addEventListener('submit', function(e) {
+    checkoutForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
         
         // Prevent checkout if cart is empty
         if (cart.length === 0) {
-            e.preventDefault();
             alert("Your cart is empty! Please add items to your cart before checking out.");
             return false;
         }
         
-        // Clear the cart from localStorage
-        localStorage.removeItem('cart');
-        
-        // Update the checkout table to show empty state
-        renderCheckoutTable();
-        
-        // Show success message
-        alert("✅ Your order has been placed!");
-        
-        // Optionally reset the form
-        this.reset();
+        try {
+            // Prepare order data
+            const orderData = {
+                firstName: this.firstName.value,
+                lastName: this.lastName.value,
+                email: this.email.value,
+                phone: this.phone.value,
+                address: this.address.value,
+                city: this.city.value,
+                zipCode: this.zip.value,
+                items: cart.map(item => ({
+                    productName: item.name,
+                    size: item.size || 'One Size',
+                    quantity: item.quantity,
+                    unitPrice: item.unitPrice
+                }))
+            };
+            
+            // Send order to backend
+            const response = await fetch('http://localhost:8080/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderData)
+            });
+            
+            if (response.ok) {
+                const orderResponse = await response.json();
+                
+                // Clear the cart
+                localStorage.removeItem('cart');
+                
+                // Show success message with order number
+                alert(`✅ Order placed successfully! Your order number is: ${orderResponse.orderNumber}`);
+                
+                // Optionally redirect to confirmation page
+                // window.location.href = `order-confirmation.html?orderNumber=${orderResponse.orderNumber}`;
+            } else {
+                throw new Error('Failed to place order');
+            }
+            
+        } catch (error) {
+            console.error('Error placing order:', error);
+            alert('❌ Failed to place order. Please try again.');
+        }
     });
 }
 
@@ -332,3 +368,133 @@ if (slider && nextBtn && prevBtn) {
         });
     });
 }
+// Add this to your script.js for optional search expansion
+document.addEventListener('DOMContentLoaded', function() {
+    const searchBtn = document.querySelector('.search-btn');
+    const searchInput = document.querySelector('.searchbar input[type="text"]');
+    
+    if (searchBtn && searchInput) {
+        searchBtn.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                searchInput.style.display = searchInput.style.display === 'block' ? 'none' : 'block';
+                if (searchInput.style.display === 'block') {
+                    searchInput.focus();
+                }
+            }
+        });
+        
+        // Close search when clicking outside
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768 && 
+                !searchBtn.contains(e.target) && 
+                !searchInput.contains(e.target) &&
+                searchInput.style.display === 'block') {
+                searchInput.style.display = 'none';
+            }
+        });
+    }
+});
+// Add this to your script.js for mobile dropdowns
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    // Function to close all dropdowns
+    function closeAllDropdowns() {
+        dropdowns.forEach(dropdown => {
+            dropdown.classList.remove('active');
+        });
+    }
+    
+    // Mobile dropdown handling
+    dropdowns.forEach(dropdown => {
+        const dropbtn = dropdown.querySelector('.dropbtn');
+        
+        if (dropbtn) {
+            dropbtn.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Close other dropdowns
+                    dropdowns.forEach(otherDropdown => {
+                        if (otherDropdown !== dropdown) {
+                            otherDropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    dropdown.classList.toggle('active');
+                }
+            });
+        }
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (window.innerWidth <= 768 && !e.target.closest('.dropdown')) {
+            closeAllDropdowns();
+        }
+    });
+    
+    // Close dropdowns on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeAllDropdowns();
+        }
+    });
+    
+    // Close dropdowns on window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeAllDropdowns();
+        }
+    });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const slides = document.querySelectorAll(".hero-slide");
+  const nextBtn = document.querySelector(".hero-next");
+  const prevBtn = document.querySelector(".hero-prev");
+  let current = 0;
+  let autoSlide;
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.remove("active");
+      slide.querySelector("video").pause();
+      if (i === index) {
+        slide.classList.add("active");
+        const vid = slide.querySelector("video");
+        vid.currentTime = 0;
+        vid.play();
+      }
+    });
+  }
+
+  nextBtn.addEventListener("click", () => {
+    current = (current + 1) % slides.length;
+    showSlide(current);
+    resetAutoSlide();
+  });
+
+  prevBtn.addEventListener("click", () => {
+    current = (current - 1 + slides.length) % slides.length;
+    showSlide(current);
+    resetAutoSlide();
+  });
+
+  function startAutoSlide() {
+    autoSlide = setInterval(() => {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }, 6000);
+  }
+
+  function resetAutoSlide() {
+    clearInterval(autoSlide);
+    startAutoSlide();
+  }
+
+  showSlide(current);
+  startAutoSlide();
+});
