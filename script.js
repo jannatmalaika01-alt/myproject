@@ -498,3 +498,23 @@ document.addEventListener("DOMContentLoaded", () => {
   showSlide(current);
   startAutoSlide();
 });
+
+// ================= HOME LINK FIX ==================
+document.addEventListener('DOMContentLoaded', function() {
+    // Fix for HOME link to ensure it works properly
+    const homeLinks = document.querySelectorAll('a.dropbtn[href="index.html"], a[href="index.html"]');
+    
+    homeLinks.forEach(homeLink => {
+        // Remove any existing click listeners that might be preventing navigation
+        const newHomeLink = homeLink.cloneNode(true);
+        homeLink.parentNode.replaceChild(newHomeLink, homeLink);
+        
+        // Add a clean click listener that allows normal navigation
+        newHomeLink.addEventListener('click', function(e) {
+            // Don't prevent default - allow the link to work normally
+            console.log('HOME link clicked - allowing navigation to index.html');
+        });
+    });
+    
+    console.log('HOME link fix applied');
+});
