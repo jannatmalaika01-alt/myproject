@@ -515,8 +515,7 @@
 
     <script>
         // Backend API URL
-        const API_BASE_URL = 'https://your-backend.up.railway.app/api/auth';
-
+        const API_BASE_URL = 'http://localhost:8080/api/auth';
 
         // Tab switching functionality
         document.querySelectorAll('.tab').forEach(tab => {
@@ -555,46 +554,46 @@
       //  window.location.href = "home.html";  // change name if needed}
 
 
-        // Form submission handling - LOGIN
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const loginBtn = document.getElementById('login-btn');
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            setLoading(loginBtn, true);
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/login`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email, password })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Store token in localStorage
-                    localStorage.setItem('authToken', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    
-                    alert('Login successful!');
-                    // Redirect to your main application
-                   window.location.href = 'https://jannatmalaika01-alt.github.io/myproject/home.html';
-
-                } else {
-                    alert('Login failed: ' + data.message);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred during login. Make sure the backend is running on localhost:8080');
-            } finally {
-                setLoading(loginBtn, false);
-            }
+// Form submission handling - LOGIN
+document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const loginBtn = document.getElementById('login-btn');
+    const username = document.getElementById('login-email').value; // keep using login-email input
+    const password = document.getElementById('login-password').value;
+    
+    setLoading(loginBtn, true);
+    
+    try {
+        const response = await fetch(`${API_BASE_URL}/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }) // <-- change here
         });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Store token in localStorage
+            localStorage.setItem('authToken', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            
+            alert('Login successful!');
+            // Redirect to your main application
+            window.location.href = 'https://jannatmalaika01-alt.github.io/myproject/home.html';
+
+        } else {
+            alert('Login failed: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred during login. Make sure the backend is running on localhost:8080');
+    } finally {
+        setLoading(loginBtn, false);
+    }
+});
 
         // Form submission handling - SIGNUP
         document.getElementById('signup-form').addEventListener('submit', async function(e) {
