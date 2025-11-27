@@ -550,9 +550,8 @@
         }
        
     // If no token → user not logged in
-    if (!localStorage.getItem("authToken")) {
-        window.location.href = "home.html";  // change name if needed
-    }
+   // if (!localStorage.getItem("authToken")) {
+      //  window.location.href = "home.html";  // change name if needed}
 
 
         // Form submission handling - LOGIN
@@ -583,7 +582,8 @@
                     
                     alert('Login successful!');
                     // Redirect to your main application
-                    window.location.href = 'https://jannatmalaika01-alt.github.io/myproject/';
+                   window.location.href = 'https://jannatmalaika01-alt.github.io/myproject/home.html';
+
                 } else {
                     alert('Login failed: ' + data.message);
                 }
@@ -649,13 +649,7 @@
             }
         });
         
-        // Google OAuth button handling
-        document.querySelectorAll('.btn-google').forEach(button => {
-            button.addEventListener('click', function() {
-                // Here you would implement Google OAuth
-                alert('Google OAuth would be implemented here');
-            });
-        });
+
         
         // Guest button handling
         document.querySelectorAll('.btn-guest').forEach(button => {
