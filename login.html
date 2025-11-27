@@ -548,6 +548,12 @@
                 }
             }
         }
+       
+    // If no token → user not logged in
+    if (!localStorage.getItem("authToken")) {
+        window.location.href = "login.html";  // change name if needed
+    }
+
 
         // Form submission handling - LOGIN
         document.getElementById('login-form').addEventListener('submit', async function(e) {
